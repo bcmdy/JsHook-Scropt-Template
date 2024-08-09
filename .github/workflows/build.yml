@@ -1,39 +1,55 @@
-name: Build Script
+# 这是一个构建脚本的工作流程
+name: 构建脚本
 
+# 工作流程触发条件
 on:
+  # 当push到main分支时触发
   push:
     branches: [ "main" ]
+  # 当手动触发时触发
   workflow_dispatch:
+
+# 工作流权限
 permissions:
+  # 可写内容权限
   contents: write
-# 一个workflow由执行的一项或多项job
+
+# 一个工作流由一个或多个任务组成
 jobs:
-  # 一个job任务，任务名为build
+  # 一个任务，名为 build
   build:
-    # runs-on 指定job任务运行所需要的虚拟机环境(必填字段)
+    # 指定任务运行的虚拟机环境
     runs-on: ubuntu-latest
-    # steps是每个Job的运行步骤，可以包含一个或多个步骤
+    # 任务的步骤
     steps:
-      # action命令，切换分支获取源码
-      - name: Checkout
-      # 使用action库  actions/checkout获取源码
+      # 检出代码
+      - name: 检出代码
+        # 使用 actions/checkout 获取源码
         uses: actions/checkout@v4
-      - name: use Node.js 20
-         # 使用action库  actions/setup-node安装node
+      - name: 使用 Node.js 20
+        # 使用 actions/setup-node 安装 Node.js
         uses: actions/setup-node@v4
         with:
+          # 指定 Node.js 版本
           node-version: 20
-      - name: Build Script
-      # 先给当前文件夹所有文件添加可执行权限,执行frida-compile脚本，编译脚本
+      - name: 构建脚本
+        # 使用 git 克隆仓库到临时文件夹
         run: |
           git clone https://github.com/bcmdy/JsHook-Scropt-Template Script.tmp
+          # 给临时文件夹中所有文件添加可执行权限
           chmod +x -R ./Script.tmp
+          # 切换到临时文件夹
           cd ./Script.tmp
+          # 执行 npm run build 命令进行构建
           npm run build
-      - name: 🧧 Create GitHub Release => (${{ github.run_number }})
+      - name: 🎁 创建 GitHub Release (${{ github.run_number }})
         continue-on-error: true
+        # 使用 softprops/action-gh-release 创建 GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          # 指定 Release 的 tag 名称
           tag_name: build_${{ github.run_number }}
+          # 指定 Release 的文件列表
           files: "${{ github.workspace }}/Script.tmp/dist/build.js"
+          # 生成 Release 的说明文档
           generate_release_notes: true
