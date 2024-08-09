@@ -32,8 +32,8 @@ jobs:
           npm run build
       - name: 🧧 Create GitHub Release => (${{ github.run_number }})
         continue-on-error: true
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.script_name }}_${{ github.run_number }}
+          tag_name: build_${{ github.run_number }}
           files: "${{ github.workspace }}/Script.tmp/dist/build.js"
           generate_release_notes: true

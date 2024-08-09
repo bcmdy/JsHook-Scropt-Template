@@ -9,6 +9,7 @@ JsHook Il2cpp游戏Mod空模板
 
 3.更新callbackBuild使其适配JsHook>=1.2.5的菜单id生产规则
 
+4.添加Github Actions自动脚本, 提交更改后自动编译并打包发布脚本, 懒人福音(虽然感觉没什么用)
 
 ## Usage
 
