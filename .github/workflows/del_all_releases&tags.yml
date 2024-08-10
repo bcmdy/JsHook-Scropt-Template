@@ -1,0 +1,60 @@
+name: 🔥 删除所有 Releases 与 Tags
+
+# 工作流程触发条件
+on:
+  # 当手动触发时触发
+  workflow_dispatch:
+    # 添加确认输入，确保删除操作被执行
+    inputs:
+      confirm:
+        description: '确认删除所有 Releases 与 Tags (输入 CONFIRM 以继续)'
+        required: true
+
+# 工作流权限
+permissions:
+  # 可写内容权限
+  contents: write
+
+jobs:
+  delete_releases_and_tags:
+    runs-on: ubuntu-latest
+    env:
+      # 获取 GitHub Token 用于执行 GitHub API 操作
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # 确认输入为 CONFIRM 时执行删除操作
+    if: github.event.inputs.confirm == 'CONFIRM'
+    steps:
+      # 检出代码
+      - name: 📂 检出代码
+        uses: actions/checkout@v4
+
+      # 删除所有 Releases
+
+      - name: 💥 删除所有 Releases
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // 获取所有 Releases
+            const releases = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            // 删除每个 Releases
+            for (const release of releases.data) {
+              console.log(`删除 Release: ${release.name}`);
+              await github.rest.repos.deleteRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: release.id,
+              });
+            }
+
+      # 删除所有 tags
+      - name: 🔥 删除所有 Tags
+        run: |
+          # 获取所有 tags
+          git fetch --tags
+          # 删除每个 tags
+          git tag -l | xargs -n 1 git push --delete origin
+          # 清理本地缓存
+          git fetch --prune
