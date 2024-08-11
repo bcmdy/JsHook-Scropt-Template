@@ -4,7 +4,10 @@ export const Mod = {
     build: '',
     menu: [],
     callbacks: {},
-    var: {},
+    var: {
+        switch1: false,
+        slider1: 0,
+    },
     /**
      * 初始化模块
      * @param {string} name - 模块名称
@@ -190,7 +193,7 @@ export const Mod = {
     },
     _thishandles: new Set(),  // 使用 Set 来存储实例
     /**
-     * 延迟执行方法
+     * 延迟执行方法, 测试方法, 不保证可用
      * @param {Object} _this - this指针
      * @param {string} method - 方法名
      * @param {Array<any>} args - 方法参数

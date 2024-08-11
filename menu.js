@@ -16,17 +16,23 @@ export const getMenu = () => {
                             }
                         },
                         {
-                            'type': 'button',
-                            'title': 'Test2',
-                            'callback': (res) => {
-                                console.log('这是 tab1 的 Test2');
+                            type: 'slider',
+                            title: 'slider1',
+                            val: Mod.var.slider1,
+                            min: 0,
+                            max: 100,
+                            callback: data => {
+                                console.log(`Mod.var.slider1 changed: ${Mod.var.slider1} -> ${data.val}`);
+                                Mod.var.slider1 = parseInt(data.val);
                             }
                         },
                         {
-                            'type': 'button',
-                            'title': 'Test3',
-                            'callback': (res) => {
-                                console.log('这是 tab1 的 Test3');
+                            type: "switch",
+                            title: "switch1",
+                            val: Mod.var.switch1,
+                            callback: data => {
+                                console.log(`Mod.var.switch1 changed: ${Mod.var.switch1} -> ${data.val}`);
+                                Mod.var.switch1 = data.val;
                             }
                         },
                         {
@@ -34,9 +40,8 @@ export const getMenu = () => {
                             'title': 'Input Test',
                             'val': Mod.var.test.toString(),
                             'callback': (res) => {
-                                console.log(res.val);
+                                console.log(`Mod.var.test changed: ${Mod.var.switch1} -> ${data.val}`);
                                 Mod.var.test = res.val;
-                                console.log('Mod.var.test: ' + Mod.var.test);
                             }
                         }
                     ]
