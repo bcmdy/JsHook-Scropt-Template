@@ -25,7 +25,8 @@ jobs:
       # 检出代码
       - name: 📂 检出代码 # 第一步，检出仓库代码
         uses: actions/checkout@v4 # 使用 actions/checkout 这个第三方 Action 来检出代码
-      
+        with:
+          path: 'repo'
       - name: 📦 配置 Node.js 环境 # 第二步，配置 Node.js 环境
         uses: actions/setup-node@v4
         with: # 配置参数
@@ -43,7 +44,7 @@ jobs:
         # 使用 git 克隆仓库到临时文件夹
         run: |
           # 克隆仓库到临时文件夹
-          git clone https://github.com/bcmdy/JsHook-Scropt-Template Script.tmp
+           cp -r repo Script.tmp
           # 给临时文件夹中所有文件添加可执行权限
           chmod +x -R ./Script.tmp
           # 切换到临时文件夹
