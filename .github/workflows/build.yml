@@ -3,9 +3,8 @@ name: 🛠️ 构建脚本
 # 这是一个构建脚本的工作流程
 # 工作流程触发条件
 on:
-  # 当push到main分支时触发
+  # 当push时触发
   push:
-    branches: [ "main" ]
   # 当手动触发时触发
   workflow_dispatch:
 
@@ -26,12 +25,12 @@ jobs:
       - name: 📂 检出代码 # 第一步，检出仓库代码
         uses: actions/checkout@v4 # 使用 actions/checkout 这个第三方 Action 来检出代码
         with:
-          path: 'repo'
+          path: "repo"
       - name: 📦 配置 Node.js 环境 # 第二步，配置 Node.js 环境
         uses: actions/setup-node@v4
         with: # 配置参数
           node-version: 20 # 指定 Node.js 版本为 20
-          
+
       - name: ⏰ 设置构建日期 # 第三步，设置构建日期
         id: builddate # 该步骤的 ID 为 builddate
         # 使用 shell 命令将构建日期写入 GitHub 环境变量中
@@ -39,7 +38,7 @@ jobs:
         # $GITHUB_ENV 是一个环境变量，用于存储工作流程的环境变量
         # 这里使用 echo 命令将构建日期写入该环境变量中，以便后续步骤使用
         # 格式为 YYYYMMDD，日期格式为四位年份+两位月份+两位日期
-        
+
       - name: 🔨 构建脚本 # 第四步，构建脚本
         # 使用 git 克隆仓库到临时文件夹
         run: |
@@ -57,16 +56,14 @@ jobs:
         env:
           # 从 GitHub 环境变量中获取构建日期
           BUILD_DATE: ${{ env.BUILD_DATE }}
+          BRANCH_NAME: ${{ github.ref_name }}
         continue-on-error: true
         # 使用 softprops/action-gh-release 创建 GitHub Release
         uses: softprops/action-gh-release@v2
         # 指定 Release 的 tag 名称，使用 GitHub 环境变量中的构建日期
         with:
           # 指定 Release 的 tag 名称
-          tag_name: ${{ env.BUILD_DATE }}_v${{ github.run_number }}
+          tag_name: ${{ env.BRANCH_NAME }}_${{ env.BUILD_DATE }}_v${{ github.run_number }}
           # 指定 Release 的文件列表
           files: "Script.tmp/dist/build.js"
           generate_release_notes: true
-
-
-
