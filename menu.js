@@ -38,7 +38,7 @@ export const getMenu = () => {
                         {
                             'type': 'input',
                             'title': 'Input Test',
-                            'val': Mod.var.test.toString(),
+                            'val': Mod.var.test,
                             'callback': (res) => {
                                 console.log(`Mod.var.test changed: ${Mod.var.switch1} -> ${data.val}`);
                                 Mod.var.test = res.val;
