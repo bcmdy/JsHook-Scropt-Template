@@ -13,7 +13,7 @@
     "@types/frida-gum": "^17.2.0",
     "@types/node": "^16.11.12",
     "frida-compile": "^10.2.5",
-    "frida-il2cpp-bridge": "*"
+    "frida-il2cpp-bridge": ""
   },
   "dependencies": {}
 }
