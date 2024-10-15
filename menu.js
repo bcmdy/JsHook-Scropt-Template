@@ -9,9 +9,9 @@ export const getMenu = () => {
                     'title': 'tab1',
                     'item': [
                         {
-                            'type': 'button',
-                            'title': 'Test1',
-                            'callback': (res) => {
+                            type: 'button',
+                            title: 'Test1',
+                            callback: data => {
                                 console.log('这是 tab1 的 Test1');
                             }
                         },
@@ -36,9 +36,9 @@ export const getMenu = () => {
                             }
                         },
                         {
-                            'type': 'input',
-                            'title': 'Input Test',
-                            'val': Mod.var.test,
+                            type: 'input',
+                            title: 'Input Test',
+                            val: Mod.var.test,
                             'callback': (res) => {
                                 console.log(`Mod.var.test changed: ${Mod.var.switch1} -> ${data.val}`);
                                 Mod.var.test = res.val;
@@ -50,24 +50,24 @@ export const getMenu = () => {
                     'title': '关于',
                     'item': [
                         {
-                            'type': 'text',
-                            'val': 'Mod: ' + Mod.name
+                            type: 'text',
+                            val: 'Mod: ' + Mod.name
                         },
                         {
-                            'type': 'text',
-                            'val': 'Version: ' + Mod.version
+                            type: 'text',
+                            val: 'Version: ' + Mod.version
                         },
                         {
-                            'type': 'text',
-                            'val': 'Build: ' + Mod.build
+                            type: 'text',
+                            val: 'Build: ' + Mod.build
                         },
                         {
-                            'type': 'text',
-                            'val': 'CoreVersionCode: ' + runtime.coreVersionCode
+                            type: 'text',
+                            val: 'CoreVersionCode: ' + runtime.coreVersionCode
                         },
                         {
-                            'type': 'button',
-                            'title': 'Dump unity',
+                            type: 'button',
+                            title: 'Dump unity',
                             'callback': (val) => {
                                 Il2Cpp.perform(() => {
                                     console.log(Il2Cpp.unityVersion);
