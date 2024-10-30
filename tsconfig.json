@@ -1,14 +1,22 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "lib": [
-      "es2020"
-    ],
-    "experimentalDecorators": true,
-    "module": "commonjs",
-    "allowJs": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "strict": true
-  }
+    "target": "esnext", // 指定 ECMAScript 目标版本
+    "lib": ["es2020"], // 指定 TypeScript 库文件
+    "experimentalDecorators": true, // 启用装饰器
+    "module": "commonjs", // 指定模块系统
+    "allowJs": true, // 允许编译 JavaScript 文件
+    "noEmit": true, // 不生成输出文件
+    "esModuleInterop": true, // 启用模块互操作性
+    "strict": true, // 启用所有严格类型检查选项
+    "skipLibCheck": true, // 跳过库文件的类型检查，提高性能
+    "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
+    "outDir": "./dist" // 指定输出目录
+  },
+  "include": [ // 指定 TypeScript 编译器应该包含的文件
+    "index.ts"
+  ],
+  "exclude": [ // 指定 TypeScript 编译器应该排除的文件
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
