@@ -3,15 +3,15 @@ import { Mod } from './mod'
 export const getMenu = () => {
     return [
         {
-            'type': 'tab',
-            'item': [
+            type: 'tab',
+            item: [
                 {
-                    'title': 'tab1',
-                    'item': [
+                    title: 'tab1',
+                    item: [
                         {
                             type: 'button',
                             title: 'Test1',
-                            callback: data => {
+                            callback: (data) => {
                                 console.log('这是 tab1 的 Test1');
                             }
                         },
@@ -21,7 +21,7 @@ export const getMenu = () => {
                             val: Mod.var.slider1,
                             min: 0,
                             max: 100,
-                            callback: data => {
+                            callback: (data) => {
                                 console.log(`Mod.var.slider1 changed: ${Mod.var.slider1} -> ${data.val}`);
                                 Mod.var.slider1 = parseInt(data.val);
                             }
@@ -30,7 +30,7 @@ export const getMenu = () => {
                             type: "switch",
                             title: "switch1",
                             val: Mod.var.switch1,
-                            callback: data => {
+                            callback: (data) => {
                                 console.log(`Mod.var.switch1 changed: ${Mod.var.switch1} -> ${data.val}`);
                                 Mod.var.switch1 = data.val;
                             }
@@ -39,16 +39,16 @@ export const getMenu = () => {
                             type: 'input',
                             title: 'Input Test',
                             val: Mod.var.test,
-                            'callback': (res) => {
+                            callback: (data) => {
                                 console.log(`Mod.var.test changed: ${Mod.var.switch1} -> ${data.val}`);
-                                Mod.var.test = res.val;
+                                Mod.var.test = data.val;
                             }
                         }
                     ]
                 },
                 {
-                    'title': '关于',
-                    'item': [
+                    title: '关于',
+                    item: [
                         {
                             type: 'text',
                             val: 'Mod: ' + Mod.name
@@ -68,7 +68,7 @@ export const getMenu = () => {
                         {
                             type: 'button',
                             title: 'Dump unity',
-                            'callback': (val) => {
+                            callback: (data) => {
                                 Il2Cpp.perform(() => {
                                     console.log(Il2Cpp.unityVersion);
                                     console.log('Dump Start');
@@ -80,7 +80,7 @@ export const getMenu = () => {
                     ]
                 }
             ],
-            'default': 1
+            default: 1
         }
     ]
 }   
