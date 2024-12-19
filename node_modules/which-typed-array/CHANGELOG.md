@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.1.18](https://github.com/inspect-js/which-typed-array/compare/v1.1.17...v1.1.18) - 2024-12-18
+
+### Commits
+
+- [types] improve types [`4b57173`](https://github.com/inspect-js/which-typed-array/commit/4b5717349976578c6b48966d581687df5dcc2e9b)
+- [Dev Deps] update `@types/tape` [`81853b0`](https://github.com/inspect-js/which-typed-array/commit/81853b075c018538859a5533578be654fafecdae)
+
+## [v1.1.17](https://github.com/inspect-js/which-typed-array/compare/v1.1.16...v1.1.17) - 2024-12-18
+
+### Commits
+
+- [types] improve types [`86bc612`](https://github.com/inspect-js/which-typed-array/commit/86bc61207e5970c2c7e13cdda4ccdeb0981ac40b)
+- [Dev Deps] update `@arethetypeswrong/cli`, `@ljharb/tsconfig`, `@types/tape` [`2e9bed6`](https://github.com/inspect-js/which-typed-array/commit/2e9bed67f1d623b176b1a7f06c5eab006c21cf96)
+- [Deps] update `call-bind`, `gopd` [`34579df`](https://github.com/inspect-js/which-typed-array/commit/34579df639e35ceb3a7e54f8e680a4077a950b8b)
+- [Refactor] use `call-bound` directly [`2a2d84e`](https://github.com/inspect-js/which-typed-array/commit/2a2d84e91045266841ddb47afe594899bae2f483)
+
+## [v1.1.16](https://github.com/inspect-js/which-typed-array/compare/v1.1.15...v1.1.16) - 2024-11-27
+
+### Commits
+
+- [actions] split out node 10-20, and 20+ [`8e289a9`](https://github.com/inspect-js/which-typed-array/commit/8e289a9665a32f7ea267c3ffed7451b154adbe26)
+- [Dev Deps] update `@arethetypeswrong/cli`, `@ljharb/eslint-config`, `@types/node`, `@types/tape`, `auto-changelog`, `tape` [`3d4a678`](https://github.com/inspect-js/which-typed-array/commit/3d4a67872d0dbecb755e63ba4101e9ec030a5e7e)
+- [Tests] replace `aud` with `npm audit` [`6fbada9`](https://github.com/inspect-js/which-typed-array/commit/6fbada976743192db47000e47eefc07708713ea0)
+- [types] add an additional overload [`db5a791`](https://github.com/inspect-js/which-typed-array/commit/db5a791642cd8b4d78fe4ed4da151c4543ee0840)
+- [Dev Deps] remove an unused DT package [`6bfff4c`](https://github.com/inspect-js/which-typed-array/commit/6bfff4c3b0c415cb32cd12be6fab3cbbe9e10e13)
+- [Dev Deps] add missing peer dep [`05fd582`](https://github.com/inspect-js/which-typed-array/commit/05fd582a703cd68ee7613af0ef2c45546ea5d2ba)
+
 ## [v1.1.15](https://github.com/inspect-js/which-typed-array/compare/v1.1.14...v1.1.15) - 2024-03-10
 
 ### Commits

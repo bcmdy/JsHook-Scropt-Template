@@ -1,5 +1,5 @@
 {
-  "name": "JsHook-Script-Template",
+  "name": "jshook-script-template",
   "main": "index.ts",
   "version": "1.0.0",
   "private": true,
