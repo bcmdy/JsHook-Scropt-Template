@@ -11,16 +11,16 @@ export const Mod = {
     /**
      * 初始化模块
      * @param {string} name - 模块名称
-     * @param {function} getMenu - 获取菜单的函数
+     * @param {[Object]} Menu - 菜单对象
      * @param {function} hook - 模块的钩子函数
      * @param {string} [version=''] - 模块版本号
      * @param {string} [build=''] - 模块构建号
      */
-    Init: (name, getMenu, hook, version = '', build = '') => {
+    Init: (name, Menu, hook, version = '', build = '') => {
         // 设置模块名称
         Mod.name = name;
         // 设置获取菜单的函数
-        Mod.getMenu = getMenu;
+        Mod.menu = Menu;
         // 设置模块的版本号
         Mod.version = version;
         // 设置模块的构建号
@@ -67,8 +67,7 @@ export const Mod = {
      */
     callbackBuild_old: () => {
         let callbackindex = 1;
-        const menu = Mod.getMenu(Mod);
-        menu.forEach(e => {
+        Mod.menu.forEach(e => {
             if (e.type == 'tab') {
                 e.item.forEach(subItem => {
                     let tabitemindex = 1;
@@ -110,45 +109,67 @@ export const Mod = {
      * @returns {void}
      */
     callbackBuild: () => {
-        let callbackIndex = 1; // 用于生成唯一键的回调函数索引
-        // 获取菜单对象或数组
-        const menu = Mod.getMenu(Mod);
+        // 初始化回调函数索引
+        let callbackIndex = 1;
 
-        // 遍历菜单中的每个项
-        menu.forEach(e => {
-            // 检查菜单项是否为标签页类型
-            if (e.type === 'tab') { // 如果是标签页
-                // 标签页索引，用于生成唯一键
-                let tabIndex = 1;
-                e.item.forEach(subItem => {
-                    // 标签页内项目索引
-                    let tabItemIndex = 1;
-                    subItem.item.forEach(button => {
-                        // 如果按钮有回调函数，则创建一个唯一的键，并存储回调函数
-                        if (button?.callback) {
-                            // 生成回调函数的索引
-                            const key = `${tabIndex}_${callbackIndex}_${tabItemIndex}`;
-                            Mod.callbacks[key] = button.callback; // 将回调函数添加到 Mod.callbacks 中
-                        }
-                        // 更新标签页内项目的索引
-                        tabItemIndex++;
-                    });
-                    // 更新回调函数索引
-                    callbackIndex++;
-                });
-                // 更新标签页索引
-                tabIndex++;
-            } else { // 如果是单独的回调函数
-                // 如果是单独的回调函数，则将其添加到 Mod.callbacks 中
-                if (e?.callback) {
-                    // 如果是第一个回调函数，则将其设置为回调函数表的第一个回调函数
-                    const key = callbackIndex;
-                    Mod.callbacks[key] = e.callback; // 将回调函数添加到 Mod.callbacks 中
-                }
-                // 更新回调函数索引
-                callbackIndex++;
+        /**
+         * 递归处理嵌套菜单项
+         * 
+         * @param {Array} items - 需要处理的菜单项数组
+         * @param {Number} tabIndex - 父级标签页的索引
+         * @param {Number} parentCallbackIndex - 父级回调函数的索引
+         * @returns {void}
+         */
+        const processMenuItems = (items, tabIndex = 1, parentCallbackIndex = 1) => {
+            if (!Array.isArray(items)) {
+                console.error(`items 不是一个数组:`, items);
+                return;
             }
 
+            items.forEach((item, index) => {
+                if (typeof item === 'object' && item !== null) {
+                    // 生成菜单项的唯一 ID
+                    const uniqueId = `${tabIndex}_${parentCallbackIndex}_${index + 1}`;
+                    item.id = uniqueId;
+
+                    if (item.callback) {
+                        Mod.callbacks[uniqueId] = item.callback;
+                    }
+
+                    if (item.item && Array.isArray(item.item)) {
+                        processMenuItems(item.item, tabIndex, index + 1);
+                    }
+                }
+            });
+        };
+
+        if (!Array.isArray(Mod.menu)) {
+            console.error(`Mod.menu 不是一个数组:`, Mod.menu);
+            return;
+        }
+
+        Mod.menu.forEach(e => {
+            if (e.type === 'tab') {
+                if (e.item && Array.isArray(e.item)) {
+                    e.item.forEach((subItem, tabIndex) => {
+                        if (subItem.item && Array.isArray(subItem.item)) {
+                            processMenuItems(subItem.item, tabIndex + 1, 1);
+                            callbackIndex++;
+                        }
+                    });
+                }
+            } else {
+                if (typeof e === 'object' && e !== null) {
+                    const uniqueId = `${callbackIndex}_${e.title}`;
+                    e.id = uniqueId;
+
+                    if (e.callback) {
+                        Mod.callbacks[uniqueId] = e.callback;
+                        console.log(`添加回调函数:${uniqueId}`, JSON.stringify(e));
+                    }
+                    callbackIndex++;
+                }
+            }
         });
     },
     /**
@@ -159,9 +180,9 @@ export const Mod = {
      */
     callbackHandle: (val) => {
         // 解析回调函数的参数
-        console.log(`回调函数参数：${JSON.stringify(val)}`);
-        // 如果存在回调函数，则执行回调函数
+        // console.log(`收到:${val.id}`);
         if (Mod.callbacks[val.id]) {
+            // console.log(`执行回调函数:${val.id}`);
             Mod.callbacks[val.id](val);
         }
     },
@@ -179,7 +200,7 @@ export const Mod = {
             // 参数1: 菜单名称
             // 参数2: 菜单项数组
             // 参数3: 菜单选项更改时的回调函数
-            Mod.menuInstance = modmenu.create(Mod.name, Mod.getMenu(Mod), {
+            Mod.menuInstance = modmenu.create(Mod.name, Mod.menu, {
                 // 菜单发生变化时的回调函数
                 onchange: Mod.callbackHandle
             });
@@ -218,13 +239,13 @@ export const Mod = {
      * @param {string} msg - 提示信息
      * @returns {void}
      */
-    toast: (msg) => {
+    toast: (...args) => {
         // 如果存在 modmenu，则调用 toast 函数显示 Toast 提示
         if (typeof modmenu !== 'undefined') {
-            toast(msg);
+            toast(args.join(' '));
         } else {
             // 否则，在控制台输出提示信息
-            console.log(`toast(${msg})`);
+            console.log(`toast(${args.join(' ')})`);
         }
     },
     startHook: undefined,

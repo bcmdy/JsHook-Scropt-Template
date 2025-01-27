@@ -1,7 +1,7 @@
 import 'frida-il2cpp-bridge'
 import { Mod } from './mod'
-export const getMenu = () => {
-    return [
+export const Menu =
+    [
         {
             type: 'tab',
             item: [
@@ -83,4 +83,3 @@ export const getMenu = () => {
             default: 1
         }
     ]
-}   
