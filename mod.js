@@ -129,7 +129,7 @@ export const Mod = {
             items.forEach((item, index) => {
                 if (typeof item === 'object' && item !== null) {
                     // 生成菜单项的唯一 ID
-                    const uniqueId = `${tabIndex}_${parentCallbackIndex}_${index + 1}`;
+                    const uniqueId = `${tabIndex}_${parentCallbackIndex}_${index + 1}_${item.title}`;
                     item.id = uniqueId;
 
                     if (item.callback) {
