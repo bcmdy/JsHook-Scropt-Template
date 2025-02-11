@@ -11,16 +11,16 @@ export const Mod = {
     /**
      * 初始化模块
      * @param {string} name - 模块名称
-     * @param {[Object]} Menu - 菜单对象
+     * @param {[Object]} getMenu - 菜单对象
      * @param {function} hook - 模块的钩子函数
      * @param {string} [version=''] - 模块版本号
      * @param {string} [build=''] - 模块构建号
      */
-    Init: (name, Menu, hook, version = '', build = '') => {
+    Init: (name, getMenu, hook, version = '', build = '') => {
         // 设置模块名称
         Mod.name = name;
         // 设置获取菜单的函数
-        Mod.menu = Menu;
+        Mod.menu = getMenu();
         // 设置模块的版本号
         Mod.version = version;
         // 设置模块的构建号
@@ -59,49 +59,6 @@ export const Mod = {
         }
         // 设置失败，返回 false
         return false;
-    },
-    /**
-     * 构建回调函数索引和存储回调函数, 这是老版本
-     * 将菜单中的回调函数添加到 Mod.callbacks 中
-     * @returns {void}
-     */
-    callbackBuild_old: () => {
-        let callbackindex = 1;
-        Mod.menu.forEach(e => {
-            if (e.type == 'tab') {
-                e.item.forEach(subItem => {
-                    let tabitemindex = 1;
-                    subItem.item.forEach(button => {
-                        if (button?.callback) {
-                            let key = callbackindex;
-                            for (let index = 0; index < tabitemindex; index++) {
-                                key += ('_' + (index + 2))
-                            }
-                            Mod.callbacks[key] = button.callback;
-                        }
-                        tabitemindex++;
-                    })
-                    callbackindex++;
-                });
-            } else {
-                if (e?.callback) {
-                    let key = '';
-                    if (callbackindex != 1) {
-                        for (let index = 0; index < callbackindex; index++) {
-                            if (index == 0) {
-                                key += (index + 1)
-                            } else {
-                                key += ('_' + (index + 1))
-                            }
-                        }
-                    } else {
-                        key = 1;
-                    }
-                    Mod.callbacks[key] = e.callback;
-                }
-                callbackindex++;
-            }
-        });
     },
     /**
      * 构建回调函数索引和存储回调函数
@@ -194,8 +151,7 @@ export const Mod = {
         // 如果 是FridaMod框架, 则构建菜单并显示
         if (typeof modmenu !== 'undefined') {
             // 判断JsHook版本, 适配新老版本不同id生成规则, 并构建菜单回调函数表
-            const buildMenuCallback = runtime.coreVersionCode < 1208 ? Mod.callbackBuild_old : Mod.callbackBuild;
-            buildMenuCallback();
+            Mod.callbackBuild();
             // 创建菜单
             // 参数1: 菜单名称
             // 参数2: 菜单项数组
